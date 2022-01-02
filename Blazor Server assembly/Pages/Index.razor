@@ -10,10 +10,10 @@ Welcome to your new app.
 </p>
 <p>
     Amount : @person.Amount.ToString("c")
-</p> 
+</p>
 <p>
     <input type="number" @bind-value="person.Amount"
-           @bind-value:event="oninput" /> 
+           @bind-value:event="oninput" />
 </p>
 <p>
     <label>
@@ -23,12 +23,61 @@ Welcome to your new app.
         &nbsp;
         @person.isActive
     </label>
-   
+    <label>
+        <input type="radio" value="1" name="group" checked="@(SelectedGroup == 1)" @onclick="@( ()=> SelectedGroup = 1 )" />1
+    </label>
+    <label>
+        <input type="radio" value="1" name="group" checked="@(SelectedGroup == 2)" @onclick="@( ()=> SelectedGroup = 2 )" />2
+    </label>
+<p>
+    the selected Group is @SelectedGroup
 </p>
-
+</p>
+<p>
+    <select @bind="SelectedLocationId">
+        <option value="0"></option>
+        @foreach (var loc in person.locations) {
+            <option value="@loc.Id">@loc.City</option>
+        }
+    </select>
+    @SelectedLocationId
+</p>
+<p>
+    <ul>
+        @foreach (var loc in person.locations) { 
+            <li>From County @loc.Country in the Province of @loc.ProvState  , City : @loc.City</li>
+        }
+    </ul>
+</p>
+<p>
+    <table class="table">
+        @foreach (var loc in person.locations) {
+        <tr>
+            <td>@loc.Id</td>
+            <td>
+                <input type="text" class="form-control"
+                       @bind-value="@loc.City"
+                       @bind-value:event="oninput" />
+            </td>
+            <td>
+                <input type="text" class="form-control"
+                       @bind-value="@loc.ProvState"
+                       @bind-value:event="oninput" />
+            </td>
+            <td>
+                <input type="text" class="form-control"
+                       @bind-value="@loc.Country"
+                       @bind-value:event="oninput" />
+            </td>
+        </tr>
+        }
+    </table>
+</p>
 @code{
 
     IndexViewModel person = null;
+    int SelectedGroup = 0;
+    int SelectedLocationId = 0;
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -37,9 +86,9 @@ Welcome to your new app.
             SalesPerson = "Shahzaib",
             Amount = 1000,
             locations = new List<Location>
-            {
-                new Location{Id=1 , ProvState = "Sindh" , Country = "Karachi"},
-                new Location{Id=1 , ProvState = "Punjib" , Country = "Lahore"}
+    {
+                new Location{Id=1 , ProvState = "Sindh" , Country = "Pakistan" , City = "Karachi"},
+                new Location{Id=2 , ProvState = "Punjib" , Country = "Pakistan" , City =  "Lahore"}
 
             }
         };

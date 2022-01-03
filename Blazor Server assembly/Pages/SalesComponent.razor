@@ -1,4 +1,8 @@
 ﻿@page "/sales"
+@page "/salesperson"
+
+@inherits DateTimeBaseComponent
+DateTimeBaseComponent
 
 <h3>Sales Component</h3>
 <br />
@@ -8,8 +12,13 @@
 
 <br />
 <br />
-@*can use page component inside page component*@ 
+@*can use page component inside page component*@
 <Counter></Counter>
+<br />
+<br />
+@*add using in this or imports files*@ 
+Date: @dateTime
+
 @code {
 
 }

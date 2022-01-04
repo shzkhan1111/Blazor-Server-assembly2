@@ -1,0 +1,17 @@
+﻿@page "/counterCallback"
+
+<h3>ParentCounterComponent</h3>
+
+<p>
+    Current Count : @currentCount
+</p>
+@*can call function name*@  
+<CounterCallBackComponent SetCurrentCount="SetCurrentCount"></CounterCallBackComponent>
+@code {
+    private int currentCount = 0;
+
+    private void SetCurrentCount(int Value)
+    {
+        currentCount = Value;
+    }
+}

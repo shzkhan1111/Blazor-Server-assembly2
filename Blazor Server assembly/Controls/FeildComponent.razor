@@ -1,0 +1,23 @@
+﻿@*to much html and css for many feilds*@
+<div class="field-label is-normal">
+    <label class="label">@Label</label>
+</div>
+<div class="field-body">
+    <div class="field">
+        <p class="control">
+            @*we dont know the input type So its better to create a render fragment*@ 
+            @*<input class="input" type="email" placeholder="Recipient email" />*@
+            @Control
+        </p>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Label { get; set; }
+
+
+    [Parameter]
+    public RenderFragment Control { get; set; }
+
+}

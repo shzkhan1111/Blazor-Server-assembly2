@@ -1,0 +1,23 @@
+﻿@page "/counterTest"
+
+<h1>Counter Test Cascade</h1>
+<br />
+<br />
+<CascadingValue Name="Counter" Value="@currentCount">
+    <CascadingValue Name="TitleColor" Value="@("blue")" IsFixed="true">
+        <Component1></Component1>
+    </CascadingValue>
+</CascadingValue>
+
+
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@code {
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+}

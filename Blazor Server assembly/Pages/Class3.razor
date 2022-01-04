@@ -1,0 +1,29 @@
+﻿@page "/counter3"
+
+<h1>Counter</h1>
+
+<p>Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<br />
+<br />
+@*display based on this button*@
+@*ref child comp an error was caused because you used onclick instead of @onclicck*@
+<ChildComponent @ref="child"></ChildComponent>
+<button class="button" @onclick="(() => {
+    child.Show();
+    })">
+    Show The child Component
+</button>
+
+
+
+@code {
+    private ChildComponent child;
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+}

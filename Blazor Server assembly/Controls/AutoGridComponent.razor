@@ -1,0 +1,74 @@
+﻿@typeparam TItem
+@using System.Reflection
+@*Templated Components - Generic Typed RenderFragment
+    Provide list of Item for the Generic type render Item to use and more*@
+@if (memberInfo != null && memberInfo.Length > 0)
+{
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                @foreach (var member in memberInfo)
+                {
+                    //Only create columns for members that are property
+                    @if (member.MemberType == MemberTypes.Property
+                        && !ColumnsToExcludeCSV.Contains(member.Name , StringComparison.OrdinalIgnoreCase)
+                        )
+                    {
+                        <th>
+                            @member.Name
+                        </th>
+                    }
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in this.Items)
+            {
+                <tr>
+                    @foreach (var member in memberInfo)
+                    {
+                        @if (member.MemberType == MemberTypes.Property
+                            && !ColumnsToExcludeCSV.Contains(member.Name, StringComparison.OrdinalIgnoreCase)
+                            )
+                        {
+                            <td>
+                                @item.GetType().GetProperty(member.Name).GetValue(item)
+                            </td>
+                        }
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@code {
+
+    MemberInfo[] memberInfo;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        if (Items != null && Items.Count > 0)
+        {
+            //use reflection
+            //analyse the type of property Item has
+            Type typeOfItem = this.Items[0].GetType();
+            //Member info has all the info regarding ctor property , etc
+            memberInfo = typeOfItem.GetMembers();
+
+        }
+    }
+
+
+    [Parameter]
+    public List<TItem> Items { get; set; }
+
+    [Parameter]
+    public string ColumnsToExcludeCSV { get; set; }
+
+
+}

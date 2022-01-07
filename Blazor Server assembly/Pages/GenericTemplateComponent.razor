@@ -1,0 +1,74 @@
+﻿@page "/GenericTemplateComponent";
+
+<h3>Repeater Component</h3>
+<br />
+<br />
+
+@*pass the customer to Repeater to item to edit*@
+<RepeaterComponent Items="customers" @ref="repeater">
+    <Header>
+        <h2>Customers Header</h2>
+    </Header>
+    <Row Context="customer">
+        @*<Header>
+                <h2>Customers</h2>
+                //here is will come after every repeater
+            above ut will above the compon. only
+            </Header>*@
+        <div>@customer.CompanyName</div>
+        <div class="ml-5">
+            @customer.ContactName &nbsp;
+            <button class="btn button-primary" @onclick="@(() =>
+                    EditCustomer(customer)
+                )">
+                Edit
+            </button>
+        </div>
+        <div class="ml-5">@customer.PhoneNumber</div>
+    </Row>
+    <EditTemplate Context="currentCustomer">
+        <div>
+            <text>Company Name :<input class="form-control" @bind-value="currentCustomer.CompanyName" /></text>
+        </div>
+        <div>
+            <text>ContactName :<input class="form-control" @bind-value="currentCustomer.ContactName" /></text>
+        </div>
+        <div>
+            <text>Phone Number :<input class="form-control" @bind-value="currentCustomer.PhoneNumber" /></text>
+        </div>
+
+    </EditTemplate>
+</RepeaterComponent>
+
+
+
+@*context of current cust*@
+@code {
+
+    private RepeaterComponent<Customer> repeater;
+    private List<Customer> customers;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        customers = new List<Customer>();
+        customers.AddRange(new Customer[]{
+            new Customer { CompanyName = "ABC" , ContactName="XYZ" , PhoneNumber="123"},
+            new Customer { CompanyName = "AAA", ContactName = "BBB", PhoneNumber = "111" },
+            new Customer { CompanyName = "WEa", ContactName = "CCC", PhoneNumber = "222" },
+
+        });
+    }
+
+    class Customer
+    {
+        public string CompanyName { get; set; }
+        public string ContactName { get; set; }
+        public string PhoneNumber { get; set; }
+
+    }
+    private void EditCustomer(Customer customer)
+    {
+        repeater.ItemToEdit = customer;
+    }
+}

@@ -1,0 +1,41 @@
+﻿@page "/formSubmit"
+@using System.ComponentModel.DataAnnotations
+@*dont use form action= "" as blazor is a SPA
+    Only the first page load goes to the HTTP Request and Response pipeline the subsequent action will not be postback to the backend *@
+<h3>FormSubmitComponent</h3>
+<EditForm OnValidSubmit="ValidFormSubmitted" Model="person">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <ValidationSummary></ValidationSummary>
+    <InputText id="fname"@bind-Value="person.FirstName"></InputText>
+    <br />
+    <InputText id="lname"  @bind-Value="person.LastName"></InputText>
+    <br />
+    <InputNumber id="emp_no" @bind-Value="person.Emp_No"></InputNumber>
+    <br />
+    <InputText id="email" @bind-Value="person.Email"></InputText>
+    <br />
+    <input type="submit" value="submit" />
+</EditForm>
+@code {
+    Person person = new Person();
+    private void ValidFormSubmitted()
+    {
+
+    }
+    class Person
+    {
+        [Required]
+        [StringLength(100)]
+        public string FirstName { get; set; }
+        [Required]
+        [StringLength(100)]
+        public string LastName { get; set; }
+        [Required]
+        [Range(1,1000)]
+        public int Emp_No { get; set; }
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+    }
+
+}

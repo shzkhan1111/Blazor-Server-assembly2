@@ -1,0 +1,41 @@
+﻿@page "/DependencInjection"
+@implements IDisposable
+@inject ICustomerService CustomerService
+@using Blazor_Server_assembly.Interface;
+
+<h1>Hello , World</h1>
+
+    Welcome to out new App
+
+<br />
+Customer Service id: @CustomerService.uid
+
+<br />
+Customer Name: @customer.name
+
+@code {
+    //one way
+    //CustomerService customerService = new CustomerService();
+    //makes Component tightly couped with index class
+    //    voilates Solid principle
+    //    should depend of higher order class , i.e Interfaces
+
+    //2
+    private Customer customer;
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        if (customer == null)
+        {
+            customer = CustomerService.GetCustomerById(1);
+        }
+    }
+    public void Dispose()
+    {
+        //when the comp is disposed 
+    }
+
+
+
+
+}

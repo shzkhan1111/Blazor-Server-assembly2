@@ -2,6 +2,7 @@ using Blazor_Server_assembly.Data;
 using Blazor_Server_assembly.Interface;
 using Blazor_Server_assembly.Store;
 using Blazor_Server_assembly.Store.CounterStore;
+using Blazor_Server_assembly.Store.CounterStoreDis;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
@@ -71,6 +72,7 @@ namespace Blazor_Server_assembly
             services.AddScoped<CounterStore>();
             //not singleton as it will be dispatched to different users
             services.AddScoped<IActionDispatcher , ActionDispatcher>();
+            services.AddScoped<CounterStoreDis>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

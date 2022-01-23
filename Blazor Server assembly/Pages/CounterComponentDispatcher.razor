@@ -1,0 +1,43 @@
+﻿@page "/counterFluxDispatcher"
+@inject CounterStoreDis counterStore
+
+@implements IDisposable
+@inject IActionDispatcher actionDispatcher
+@*instead of using the local state ->
+    dependency inject the counter store*@
+
+<h1>Counter Dispatcher</h1>
+
+<p>Current count: @counterStore.GetState().Count</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+@*display it in the menu as well*@
+@code {
+    //register compoenet to listen to the store
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        //whenever there is a change call statehaschanged
+        counterStore.AddStateChangedListener(UpdateView);
+    }
+
+
+    //    actionDispatcher is in mem and centralized , Dispatch will oublish IncrementAction action
+    //to all the stores
+    //and store will determine will we handle it or not
+
+    private void IncrementCount()
+    {
+        //counterStore.Increment();
+        actionDispatcher.Dispatch(new IncrementAction());
+    }
+
+    private void UpdateView()
+    {
+        StateHasChanged();
+    }
+    public void Dispose()
+    {
+        counterStore.RemoveStateChangedListener(UpdateView);
+    }
+}

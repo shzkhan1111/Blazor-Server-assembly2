@@ -1,5 +1,7 @@
 using Blazor_Server_assembly.Data;
 using Blazor_Server_assembly.Interface;
+using Blazor_Server_assembly.Store;
+using Blazor_Server_assembly.Store.CounterStore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
@@ -64,7 +66,11 @@ namespace Blazor_Server_assembly
             Transient work the same (see it) 
 
              */
-
+            //we dont to share the scope 
+            //as long as connectiom is not broken it will be the same instance of the store 
+            services.AddScoped<CounterStore>();
+            //not singleton as it will be dispatched to different users
+            services.AddScoped<IActionDispatcher , ActionDispatcher>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

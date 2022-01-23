@@ -1,0 +1,36 @@
+﻿@page "/counterFlux"
+@inject CounterStore counterStore
+@implements IDisposable
+@*instead of using the local state ->
+    dependency inject the counter store*@
+
+<h1>Counter</h1>
+
+<p>Current count: @counterStore.GetState().Count</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+@*display it in the menu as well*@
+@code {
+    //register compoenet to listen to the store
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        //whenever there is a change call statehaschanged
+        counterStore.AddStateChangedListener(UpdateView);
+    }
+
+    private void IncrementCount()
+    {
+        //currentCount++;
+        counterStore.Increment();
+    }
+
+    private void UpdateView()
+    {
+        StateHasChanged();
+    }
+    public void Dispose()
+    {
+        counterStore.RemoveStateChangedListener(UpdateView);
+    }
+}

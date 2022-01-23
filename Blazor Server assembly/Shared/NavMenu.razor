@@ -1,4 +1,14 @@
-﻿<div class="top-row pl-4 navbar navbar-dark">
+﻿@inject CounterStore counterStore
+
+<style>
+    nav1 {
+        overflow-x: hidden;
+        overflow-y: auto !important;
+    }
+    
+</style>
+
+<div class="top-row pl-4 navbar navbar-dark">
     <a class="navbar-brand" href="">Blazor Server assembly</a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
@@ -6,7 +16,8 @@
 </div>
 
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <ul class="nav flex-column">
+    
+    <ul class="nav flex-column" style="background-color:black">
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                 <span class="oi oi-home" aria-hidden="true"></span> Home
@@ -74,7 +85,13 @@
         </li>
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="DependencInjection">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Dependency Injection 
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Dependency Injection
+            </NavLink>
+        </li>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="counterFlux">
+                <span class="oi oi-list-rich" aria-hidden="true"></span>counter Flux:
+                @counterStore.GetState().Count
             </NavLink>
         </li>
     </ul>
@@ -84,6 +101,14 @@
     private bool collapseNavMenu = true;
 
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    //register compoenet to listen to the store
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        //whenever there is a change call statehaschanged , lsten to change
+        counterStore.AddStateChangedListener(() => { StateHasChanged(); });
+    }
 
     private void ToggleNavMenu()
     {
